@@ -12,9 +12,18 @@
 3. 循环体内，字符串的链接方式，使用 StringBuilder 的 append 方法进行扩展。
 4. 使用工具类 Arrays.asList()把数组转换成集合时，不能使用其修改集合相关的方
 法，它的 add/remove/clear 方法会抛出 UnsupportedOperationException 异常。 说明：asList 的返回对象是一个 Arrays 内部类，并没有实现集合的修改方法。Arrays.asList 体现的是适配器模式，只是转换接口，后台的数据仍是数组。
-5. if 尽可能维持正常流程代码最外面
+5. *if 尽可能维持正常流程代码最外面*
 6. Math.random() 返回 double 类型，取值范围  0<=x<1 。获取整数用 random.nextInt 或者 nextLong
 7. 获取当年前毫秒数： System.currentTimeMillis()
-8. 防止NPE，是程序员的基本修养。
+8. *防止NPE，是程序员的基本修养。*
+
+## 日志规范
+1. 使用用日志为了达到以下目标
+	1. 对程序的运行情况进行监控和记录
+	2. 任务和时候可详细了解程序内部的运行状态
+	3. 对系性能的影响尽量小
+2. 日志分类
+	1. 	业务日志
+	2. 异常日志
 
 #### SQL语句
