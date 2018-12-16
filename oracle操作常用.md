@@ -104,3 +104,8 @@ rowid 可以说是物理存在的，表示记录在表空间中的唯一位置ID
 
 ##oracle 执行计划
 [关于oracle执行计划的博客](https://www.cnblogs.com/Dreamer-1/p/6076440.html)
+
+
+## 日常开发中遇到的问题
+1. update 语句中 若包含单引号 则用两个单引号代替
+2. to_date('2018/11/11','yyyy/MM/dd') 
