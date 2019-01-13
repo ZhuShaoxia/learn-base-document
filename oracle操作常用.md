@@ -102,10 +102,55 @@ rowid 可以说是物理存在的，表示记录在表空间中的唯一位置ID
 * 　开窗函数，Oracle从8.1.6开始提供分析函数，分析函数用于计算基于组的某种聚合值，它和聚合函数的不同之处是：**对于每个组返回多行**，而聚合函数对于每个组只返回一行。
 开窗函数指定了分析函数工作的数据窗口大小，这个数据窗口大小可能会随着行的变化而变化。
 
-##oracle 执行计划
+## oracle 执行计划
 [关于oracle执行计划的博客](https://www.cnblogs.com/Dreamer-1/p/6076440.html)
+1. 执行顺序：
+根据缩进来判断，缩进最多的最先执行(缩进相同时，最上面的最先执行)
+2. 表的访问方式
+- TABLE ACCESS FULL(全表扫描)
+- TABLE ACCESS BY ROWID(通过rowid的表存取)
+- TABLE ACCESS BY INDEX SCAN(索引扫描)
+	- INDEX UNIQUE SCAN（索引唯一扫描）:每次至多只返回一条记录,主要针对该字段为主键或者唯一；
+	- INDEX RANGE SCAN（索引范围扫描）:使用一个索引存取多行数据；
+		发生索引范围扫描的三种情况：
+		- 在唯一索引列上使用了范围操作符（如：>   <   <>   >=   <=   between）
+		- 在组合索引上，只使用部分列进行查询（查询时必须包含前导列，否则会走全表扫描）
+		- 对非唯一索引列上进行的任何查询	
+	- INDEX FULL SCAN（索引全扫描）：进行全索引扫描时，查询出的数据都必须从索引中可以直接得到
+	- INDEX FAST FULL SCAN（索引快速扫描）:扫描索引中的所有的数据块,它不对查询出的数据进行排序（即数据不是以排序顺序被返回）
+	- INDEX SKIP SCAN（索引跳跃扫描）:
+
+
 
 
 ## 日常开发中遇到的问题
 1. update 语句中 若包含单引号 则用两个单引号代替
 2. to_date('2018/11/11','yyyy/MM/dd') 
+3. ORACLE采用自下而上的顺序解析WHERE子句,根据这个原理, 当在WHERE子句中有多个表联接时，WHERE子句中排在最后的表应当是返回行数可能最少的表，有过滤条件的子句应放在WHERE子句中的最后。
+
+## 常用 sql 语句
+1. 备份表
+```SQL
+create table newTable;
+as 
+select * from oldTable;
+```
+
+2. 删除表
+```SQL
+drop table tablename;
+```
+
+3. 清空表
+```SQL
+truncate table tablename;
+```
+
+4. 创建索引
+```SQL
+CREATE INDEX index_name ON table_name(COLUMN_NAME);
+CREATE UNIQUE INDEX index_name ON table_name (column_name)
+```
+5. 给表 或 列 添加注释
+comment on table 表名 is 注释名;
+comment on column 表名.列名 is 注释名;
